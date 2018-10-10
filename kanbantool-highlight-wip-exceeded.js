@@ -1,4 +1,6 @@
 var highlightColumnsExceedingWipLimit = () => {
+    $('.gl-wip-limit-exceeded').removeClass('gl-wip-limit-exceeded');
+
     $('kt-wip-counter.kt-limit-exceeded').each(function() {
         let stages = [];
         stages.push(this.props.workflowStageId);
@@ -13,10 +15,10 @@ var highlightColumnsExceedingWipLimit = () => {
         });
 
         const fixed = selector.slice(0, -1);
-        $(fixed).addClass("wip-limit-exceeded");
+        $(fixed).addClass("gl-wip-limit-exceeded");
     });
 }
 
 
 KT.tasks.on('change:workflow_stage_id change:swimlane_id', _.debounce(highlightColumnsExceedingWipLimit, 750));
-KT.onInit( function(){ setTimeout(highlightUnorderedColumns, 1e3); });
+KT.onInit( function(){ setTimeout(highlightColumnsExceedingWipLimit, 1e3); });
